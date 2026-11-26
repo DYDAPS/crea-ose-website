@@ -17,6 +17,34 @@ jQuery(document).ready(function($) {
 		}
 	};
 
+	let pickKeys = function(object, keys) {
+		let result = {};
+
+		keys.forEach(key => {
+			if (object && typeof object[key] !== 'undefined') {
+				result[key] = object[key];
+			}
+		});
+
+		return result;
+	};
+
+	let encodePlaceData = function(place) {
+		let data = pickKeys(place, [ 'id', 'name', 'address', 'avatar_url', 'access_token', 'rating_number', 'rating_numbers', 'rating_numbers_last', 'rating_score', 'request_id', 'manual_download', 'is_new_reviews', 'next_update_available' ]);
+
+		if (Array.isArray(place.reviews)) {
+			data.reviews = place.reviews.map(review => Object.assign(pickKeys(review, [ 'id', 'text', 'rating', 'created_at', 'date', 'reply', 'recommendation_type' ]), {
+				reviewer: pickKeys(review.reviewer, [ 'name', 'avatar_url' ]),
+				photos: Array.isArray(review.photos) ? review.photos.map(photo => photo && photo.url ? photo.url : photo) : [],
+			}));
+		}
+
+		let binary = '';
+		new TextEncoder().encode(JSON.stringify(data)).forEach(byte => binary += String.fromCharCode(byte));
+
+		return btoa(binary);
+	};
+
 	/*************************************************************************/
 	/* NO REG MODE */
 	TrustindexConnect = {
@@ -72,6 +100,10 @@ jQuery(document).ready(function($) {
 				event.preventDefault();
 
 				let button = $(this);
+				if (button.hasClass('ti-btn-loading')) {
+					return;
+				}
+
 				let token = $('#ti-noreg-connect-token').val();
 
 				button.addClass('ti-btn-loading').blur();
@@ -95,11 +127,7 @@ jQuery(document).ready(function($) {
 						return data.id;
 					},
 					onResponse: function(data) {
-						let jsonStr = JSON.stringify(data).replace(/[\u0080-\uffff]/g, c => {
-							return '\\u' + ('0000' + c.charCodeAt(0).toString(16)).slice(-4);
-						});
-
-						$('#ti-noreg-page-details').val(jsonStr);
+						$('#ti-noreg-page-details').val(encodePlaceData(data));
 
 						button.closest('form').submit();
 					},
@@ -131,6 +159,11 @@ jQuery(document).ready(function($) {
 			event.preventDefault();
 
 			let btn = jQuery(this);
+			if (btn.hasClass('ti-btn-loading')) {
+				return;
+			}
+
+			btn.addClass('ti-btn-loading').blur();
 
 			TrustindexConnect.asyncRequest(function(token, request_id, manual_download, place) {
 				if (place) {
@@ -138,7 +171,7 @@ jQuery(document).ready(function($) {
 						type: 'POST',
 						data: {
 							_wpnonce: btn.data('nonce'),
-							download_data: JSON.stringify(place)
+							download_data: encodePlaceData(place)
 						}
 					}).always(() => location.reload());
 				}

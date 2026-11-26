@@ -9,9 +9,9 @@ Author: Trustindex.io <support@trustindex.io>
 Author URI: https://www.trustindex.io/
 Contributors: trustindex
 License: GPLv2 or later
-Version: 14.2
+Version: 15.0
 Requires at least: 6.2
-Requires PHP: 7.4
+Requires PHP: 7.2
 Text Domain: wp-reviews-plugin-for-google
 Domain Path: /languages
 Donate link: https://www.trustindex.io/prices/
@@ -22,7 +22,7 @@ Copyright 2019 Trustindex Kft (email: support@trustindex.io)
 defined( 'ABSPATH' ) or die( 'No script kiddies please!' );
 require_once plugin_dir_path(__FILE__) . 'include' . DIRECTORY_SEPARATOR . 'cache-plugin-filters.php';
 require_once plugin_dir_path(__FILE__) . 'trustindex-plugin.class.php';
-$trustindex_pm_google = new TrustindexPlugin_google("google", __FILE__, "14.2", "Widgets for Google Reviews", "Google");
+$trustindex_pm_google = new TrustindexPlugin_google("google", __FILE__, "15.0", "Widgets for Google Reviews", "Google");
 $pluginManager = 'TrustindexPlugin_google';
 $pluginManagerInstance = $trustindex_pm_google;
 add_action('admin_init', function() { ob_start(); });
@@ -60,13 +60,7 @@ check_admin_referer('ti-online-users-'.$pluginManagerInstance->getShortName());
 $page = isset($_REQUEST['p']) ? sanitize_text_field(wp_unslash($_REQUEST['p'])) : '';
 $md5Value = isset($_SERVER['REMOTE_ADDR']) ? sanitize_text_field(wp_unslash($_SERVER['REMOTE_ADDR'])) : '';
 $md5Value .= isset($_SERVER['HTTP_USER_AGENT']) ? sanitize_text_field(wp_unslash($_SERVER['HTTP_USER_AGENT'])) : '';
-$key = 'ti_uid_' . md5($md5Value);
-$userId = get_transient($key);
-if (!$userId) {
-$userId = uniqid('', true);
-set_transient($key, $userId, 3600);
-}
-echo esc_html($pluginManagerInstance->getOnlineUsers($userId, $page));
+echo esc_html($pluginManagerInstance->getOnlineUsers(md5($md5Value), $page));
 exit;
 }
 });
@@ -89,19 +83,37 @@ if (!function_exists('register_block_type')) {
 add_action('widgets_init', [ $pluginManagerInstance, 'init_widget' ]);
 add_action('widgets_init', [ $pluginManagerInstance, 'register_widget' ]);
 }
-add_action('init', function() {
-wp_register_script('trustindex-loader-js', 'https://cdn.trustindex.io/loader.js', [], null, [ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- The loader URL must not contain cache-busting query parameters.
+// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- public file endpoint, see TrustindexAssetProxy::handleRequest()
+if (isset($_GET['trustindex-asset']) && !defined('TRUSTINDEX_ASSET_REQUEST_HANDLED')) {
+define('TRUSTINDEX_ASSET_REQUEST_HANDLED', true);
+add_action('plugins_loaded', [ $pluginManagerInstance->getAssetProxy(), 'handleRequest' ], 1);
+}
+add_action('init', function() use($pluginManagerInstance) {
+wp_register_script('trustindex-loader-js', $pluginManagerInstance->getAssetProxy()->getLoaderUrl(), [], null, [ // phpcs:ignore WordPress.WP.EnqueuedResourceParameters.MissingVersion -- The loader URL must not contain cache-busting query parameters.
 'strategy' => is_admin() ? 'defer' : 'async',
 'in_footer' => !is_admin(),
 ]);
 });
 add_action('init', [ $pluginManagerInstance, 'init_shortcode' ]);
+if (!defined('TRUSTINDEX_WIDGET_HTML_WRAPPERS_REMOVED')) {
+define('TRUSTINDEX_WIDGET_HTML_WRAPPERS_REMOVED', true);
+add_filter('wp_template_enhancement_output_buffer', [$pluginManagerInstance, 'removeWidgetHtmlWrappers']);
+add_action('wp_before_include_template', function() use ($pluginManagerInstance) {
+if (defined('ELEMENTOR_VERSION') && !did_action('wp_template_enhancement_output_buffer_started')) {
+ob_start([$pluginManagerInstance, 'removeWidgetHtmlWrappers']);
+}
+}, 1001);
+}
 add_filter('style_loader_tag', function($tag, $handle) use($pluginManagerInstance) {
-return 0 === strpos($handle, 'trustindex-widget-css-') ? $pluginManagerInstance->addOptimizerOptOutAttributes($tag) : $tag;
+if (0 !== strpos($handle, 'trustindex-widget-css-')) {
+return $tag;
+}
+return $pluginManagerInstance->addOptimizerOptOutAttributes($pluginManagerInstance->preloadWidgetStylesheetTag($tag));
 }, 10, 2);
 add_filter('script_loader_tag', function($tag, $handle) {
 if ('trustindex-loader-js' === $handle) {
 $tag = str_replace('<script ', '<script data-ccm-injected="1" ', $tag);
+$tag = preg_replace('/ src="'.preg_quote('https://cdn.trustindex.io/loader.js', '/').'(?![?#"])[^"]*"/', ' src="https://cdn.trustindex.io/loader.js"', $tag);
 }
 return $tag;
 }, 10, 2);
@@ -125,6 +137,17 @@ add_action('init', [ $pluginManagerInstance, 'register_tinymce_features' ]);
 add_action('wp_ajax_list_trustindex_widgets', [ $pluginManagerInstance, 'list_trustindex_widgets_ajax' ]);
 add_action('admin_enqueue_scripts', [ $pluginManagerInstance, 'trustindex_add_scripts' ]);
 add_action('rest_api_init', [ $pluginManagerInstance, 'init_restapi' ]);
+if (function_exists('wp_register_ability')) {
+add_action('wp_abilities_api_categories_init', function() use ($pluginManagerInstance) {
+$pluginManagerInstance->getAbilities()->registerCategory();
+});
+add_action('wp_abilities_api_init', function() use ($pluginManagerInstance) {
+$pluginManagerInstance->getAbilities()->registerAbilities();
+});
+add_filter('elementor/mcp/server/tools', function($tools) use ($pluginManagerInstance) {
+return $pluginManagerInstance->getAbilities()->addElementorMcpTools($tools);
+});
+}
 if (class_exists('Woocommerce') && !class_exists('TrustindexCollectorPlugin') && !function_exists('ti_woocommerce_notice')) {
 function ti_woocommerce_notice() {
 global $pluginManager;
@@ -159,12 +182,17 @@ echo wp_kses_post(sprintf(__('Download our new <a href="%1$s" target="_blank">%2
 }
 add_action('admin_notices', 'ti_woocommerce_notice');
 }
+
+
+
 add_action('admin_notices', function() use ($pluginManager, $pluginManagerInstance) {
 if (!current_user_can($pluginManager::$permissionNeeded)) {
 return;
 }
+$screen = get_current_screen();
+$dashboardNotificationOptions = null !== $screen && 'dashboard' === $screen->id ? $pluginManagerInstance->getDashboardNotificationOptions() : [];
 foreach ($pluginManagerInstance->getNotificationOptions() as $type => $options) {
-if (!$pluginManagerInstance->isNotificationActive($type)) {
+if (!$pluginManagerInstance->isNotificationActive($type) || isset($dashboardNotificationOptions[$type])) {
 continue;
 }
 echo '<div class="notice notice-'. esc_attr($options['type']) .' '. ($options['is-closeable'] ? 'is-dismissible' : '') .' trustindex-notification-row '. esc_attr($options['extra-class']).'" data-close-url="'. esc_url(wp_nonce_url(admin_url('admin.php?page='. $pluginManagerInstance->get_plugin_slug() .'/settings.php&notification='. $type .'&action=close'), 'ti-notification')) .'">';
@@ -203,6 +231,21 @@ echo '
 </p>
 </div>';
 }
+});
+add_action('wp_dashboard_setup', function() use ($pluginManager, $pluginManagerInstance) {
+if (!current_user_can($pluginManager::$permissionNeeded) || [] === $pluginManagerInstance->getDashboardNotificationOptions()) {
+return;
+}
+wp_add_dashboard_widget('trustindex-dashboard-'. $pluginManagerInstance->getShortName(), "Widgets for Google Reviews", function() use ($pluginManagerInstance) {
+foreach ($pluginManagerInstance->getDashboardNotificationOptions() as $type => $options) {
+echo '<div class="notice notice-'. esc_attr($options['type']) .' inline '. ($options['is-closeable'] ? 'is-dismissible' : '') .' trustindex-notification-row" data-close-url="'. esc_url(wp_nonce_url(admin_url('admin.php?page='. $pluginManagerInstance->get_plugin_slug() .'/settings.php&notification='. $type .'&action=close&dashboard=1'), 'ti-notification')) .'">';
+echo '<p>'. wp_kses_post($options['text']) .'</p>';
+if ($options['button-text']) {
+echo '<p><a href="'. esc_url(wp_nonce_url(admin_url('admin.php?page='. $pluginManagerInstance->get_plugin_slug() .'/settings.php&notification='. $type .'&action=open&dashboard=1'), 'ti-notification')) .'" class="button button-primary">'. esc_html($options['button-text']) .'</a></p>';
+}
+echo '</div>';
+}
+});
 });
 unset($pluginManagerInstance);
 ?>
