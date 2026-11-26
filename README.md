@@ -1,12 +1,12 @@
-# CREA-OSE Website
+# CREA...OSE Website
 
 ## Overview
 
-This repository contains the tracked WordPress application and site-specific code for CREA-OSE. The WordPress database remains separate from the filesystem deployment and holds page content, plugin settings, activation state, and other site data.
+This repository contains the tracked WordPress application and site-specific code for CREA...OSE. The WordPress database remains separate from the filesystem deployment and holds page content, plugin settings, activation state, and other site data.
 
 ## Tech Stack
 
-- WordPress 7.1.2 (the version in the tracked core source)
+- WordPress 7.1.5 (the version in the tracked core source)
 - PHP; use a local runtime compatible with the production host and installed extensions
 - CREA...OSE Theme (`hello-elementor-child`), based on Hello Elementor
 - Site features and integrations supplied by the plugins listed below
@@ -83,4 +83,4 @@ Never commit passwords, database credentials, salts, API keys, webhook secrets, 
 
 ## Project-Specific Notes
 
-The child theme contains CREA-OSE presentation code; consent, analytics, SEO and image handling are provided by the included plugins.
+The child theme contains CREA...OSE presentation code; consent, analytics, SEO and image handling are provided by the included plugins.
