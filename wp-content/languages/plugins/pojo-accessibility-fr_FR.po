@@ -1,15 +1,15 @@
-# Translation of Plugins - Ally &#8211; Web Accessibility &amp; Usability - Stable (latest release) in French (France)
-# This file is distributed under the same license as the Plugins - Ally &#8211; Web Accessibility &amp; Usability - Stable (latest release) package.
+# Translation of Plugins - Web Accessibility (formally known as Ally) &#8211; WCAG Scanning, Guided Fixes, Usability Widget - Stable (latest release) in French (France)
+# This file is distributed under the same license as the Plugins - Web Accessibility (formally known as Ally) &#8211; WCAG Scanning, Guided Fixes, Usability Widget - Stable (latest release) package.
 msgid ""
 msgstr ""
+"Project-Id-Version: Plugins - Web Accessibility (formally known as Ally) &#8211; WCAG Scanning, Guided Fixes, Usability Widget - Stable (latest release)\n"
 "PO-Revision-Date: 2025-02-06 13:47:21+0000\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Generator: GlotPress/4.0.3\n"
-"Language: fr\n"
-"Project-Id-Version: Plugins - Ally &#8211; Web Accessibility &amp; Usability - Stable (latest release)\n"
+"X-Generator: GlotPress/4.1.0\n"
 
 #: modules/legacy/components/settings.php:347
 msgid "Skip to Content Element ID"
@@ -38,26 +38,31 @@ msgstr "Définir les réglages de la barre d’outils d’accessibilité"
 msgid "Set Accessibility settings"
 msgstr "Définir les réglages d’accessibilité"
 
-#: modules/core/module.php:36 modules/legacy/components/settings.php:640
+#: modules/core/module.php:41 modules/legacy/components/settings.php:640
 #: modules/legacy/components/settings.php:665
 msgid "Settings"
 msgstr "Réglages"
 
-#: modules/legacy/components/admin.php:131
+#: modules/legacy/components/admin.php:102
 msgid "Learn more about Elementor"
 msgstr "En savoir plus sur Elementor"
 
 #: modules/legacy/components/settings.php:372
 msgid "This option will add <code>role=\"link\"</code> to all links on the page."
-msgstr "Cette option ajoutera <code>role=\"link\"</code> à tous les liens sur la page."
+msgstr ""
+"Cette option ajoutera <code>role=\"link\"</code> à tous les liens sur la "
+"page."
 
 #: modules/legacy/components/settings.php:336
 msgid "Add skip to content link when using keyboard."
-msgstr "Ajoute le lien de contenu au contenu lorsque vous utilisez le clavier."
+msgstr ""
+"Ajoute le lien de contenu au contenu lorsque vous utilisez le clavier."
 
 #: modules/legacy/components/customizer.php:172
 msgid "Additional Toolbar settings can be configured at the %s page."
-msgstr "Des réglages supplémentaires de la barre d’outils peuvent être configurés sur la page %s."
+msgstr ""
+"Des réglages supplémentaires de la barre d’outils peuvent être configurés "
+"sur la page %s."
 
 #: modules/legacy/components/customizer.php:162
 msgid "Set Focus outline color"
@@ -112,9 +117,13 @@ msgid "Set Toolbar background color"
 msgstr "Définir la couleur d’arrière-plan de la barre d’outils"
 
 #. translators: 1: One Click Accessibility, 2: Link to plugin review
-#: modules/legacy/components/admin.php:160
-msgid "Enjoyed %1$s? Please leave us a %2$s rating. We really appreciate your support!"
-msgstr "Vous aimez %1$s ? Veuillez nous laisser une note %2$s. Nous apprécions vraiment votre soutien !"
+#: modules/legacy/components/admin.php:129
+msgid ""
+"Enjoyed %1$s? Please leave us a %2$s rating. We really appreciate your "
+"support!"
+msgstr ""
+"Vous aimez %1$s ? Veuillez nous laisser une note %2$s. Nous apprécions "
+"vraiment votre soutien !"
 
 #: modules/legacy/components/customizer.php:26
 msgid "Wheelchair"
@@ -146,42 +155,56 @@ msgstr "Définir le décalage supérieur de la barre d’outils (mobile)"
 
 #: modules/legacy/components/customizer.php:86
 msgid "Set Toolbar toggle button background color"
-msgstr "Définir la couleur d’arrière-plan du bouton bascule de la barre d’outils"
+msgstr ""
+"Définir la couleur d’arrière-plan du bouton bascule de la barre d’outils"
 
 #: modules/legacy/components/customizer.php:96
 msgid "Set Toolbar toggle button icon color"
-msgstr "Définir la couleur de l’icône du bouton de bascule de la barre d’outils"
+msgstr ""
+"Définir la couleur de l’icône du bouton de bascule de la barre d’outils"
 
 #: modules/legacy/components/settings.php:398
 msgid "Define how long your toolbar settings will be remembered"
-msgstr "Définit durant combien de temps seront mémorisés vos réglages de la barre d’outils "
+msgstr ""
+"Définit durant combien de temps seront mémorisés vos réglages de la barre "
+"d’outils "
 
 #: modules/legacy/components/customizer.php:173
+#: modules/legacy/components/frontend.php:117
 #: modules/legacy/components/settings.php:647
 msgid "Accessibility Toolbar"
 msgstr "Barre d’outils d’accessibilité"
 
 #: modules/legacy/components/customizer.php:171
-msgid "Use the control below to customize the appearance and layout of the Accessibility Toolbar"
-msgstr "Utilisez le contrôle ci-dessous pour personnaliser l’apparence et la présentation de la barre d’outils Accessibilité."
+msgid ""
+"Use the control below to customize the appearance and layout of the "
+"Accessibility Toolbar"
+msgstr ""
+"Utilisez le contrôle ci-dessous pour personnaliser l’apparence et la "
+"présentation de la barre d’outils Accessibilité."
 
 #: modules/legacy/components/customizer.php:106
 msgid "Set Toolbar active background color"
 msgstr "Définir la couleur d’arrière-plan active de la barre d’outils"
 
-#: modules/legacy/components/admin.php:135
+#: modules/legacy/components/admin.php:104
 msgid "Install Now For Free!"
 msgstr "Installez maintenant gratuitement !"
 
-#: modules/legacy/components/admin.php:130
-msgid "Create high-end, pixel perfect websites at record speeds. Any theme, any page, any design. The most advanced frontend drag & drop page builder."
-msgstr "Créez des sites web haut de gamme, responsifs, à une vitesse record. N’importe quel thème, n’importe quelle page, n’importe quel design. Le constructeur de page glisser-déposer le plus avancé en mode direct."
+#: modules/legacy/components/admin.php:101
+msgid ""
+"Create high-end, pixel perfect websites at record speeds. Any theme, any "
+"page, any design. The most advanced frontend drag & drop page builder."
+msgstr ""
+"Créez des sites web haut de gamme, responsifs, à une vitesse record. "
+"N’importe quel thème, n’importe quelle page, n’importe quel design. Le "
+"constructeur de page glisser-déposer le plus avancé en mode direct."
 
-#: modules/legacy/components/admin.php:129
+#: modules/legacy/components/admin.php:100
 msgid "Do You Like One Click Accessibility? You'll Love Elementor!"
 msgstr "Vous aimez One Click Accessibility ? Vous allez adorer Elementor !"
 
-#: modules/legacy/components/admin.php:161
+#: modules/legacy/components/admin.php:130
 #: modules/legacy/components/settings.php:715
 #: modules/legacy/components/settings.php:716
 msgid "One Click Accessibility"
@@ -228,10 +251,15 @@ msgid "Sitewide Accessibility"
 msgstr "Accessibilité sur tout le site"
 
 #: modules/legacy/components/settings.php:384
-msgid "Consistent accessibility throughout your site visit. Site remembers you and stays accessible."
-msgstr "Accessibilité constante tout au long de votre visite sur le site. Le site se souvient de vous et reste accessible."
+msgid ""
+"Consistent accessibility throughout your site visit. Site remembers you and "
+"stays accessible."
+msgstr ""
+"Accessibilité constante tout au long de votre visite sur le site. Le site se"
+" souvient de vous et reste accessible."
 
-#: modules/legacy/components/settings.php:240
+#: modules/legacy/components/settings.php:240 assets/build/866.js:6
+#: assets/build/chunk-page-analytics.js:1
 #: modules/settings/assets/js/constants/index.js:83
 #: modules/settings/assets/js/constants/index.js:84
 msgid "Sitemap"
@@ -262,14 +290,18 @@ msgstr "Afficher la barre d’outils"
 msgid "Open toolbar"
 msgstr "Ouvrir la barre d’outils"
 
-#: modules/dashboard/widgets/ally-dashboard-widget.php:104
+#: modules/dashboard/widgets/ally-dashboard-widget.php:105
 #: modules/legacy/components/customizer.php:27
 #: modules/legacy/components/customizer.php:177
 #: modules/legacy/components/settings.php:630
 #: modules/legacy/components/settings.php:631
 #: modules/legacy/components/upgrade.php:594 modules/settings/module.php:65
+#: assets/build/admin.js:18 assets/build/chunk-modal-get-started.js:1
+#: assets/build/chunk-page-accessibility-statement.js:1
+#: assets/build/chunk-page-capabilities.js:1
+#: assets/build/chunk-page-design.js:1
 #: modules/settings/assets/js/components/help-menu/get-started-modal.js:70
-#: modules/settings/assets/js/components/sidebar-heading/index.js:18
+#: modules/settings/assets/js/components/sidebar-heading/index.js:21
 msgid "Accessibility"
 msgstr "Accessibilité"
 
@@ -506,16 +538,24 @@ msgid "Style Settings"
 msgstr "Réglages de style"
 
 #: modules/legacy/components/settings.php:307
-msgid "For style settings of accessibility tools go to > Customize > <a href=\"%s\">Accessibility</a>."
-msgstr "Pour les réglages de style des outils d’accessibilité, allez à > Personnaliser > <a href=\"%s\">Accessibilité</a>."
+msgid ""
+"For style settings of accessibility tools go to > Customize > <a "
+"href=\"%s\">Accessibility</a>."
+msgstr ""
+"Pour les réglages de style des outils d’accessibilité, allez à > "
+"Personnaliser > <a href=\"%s\">Accessibilité</a>."
 
 #: modules/legacy/components/settings.php:356
 msgid "Remove target attribute from links"
 msgstr "Supprimer l’attribut cible des liens"
 
 #: modules/legacy/components/settings.php:358
-msgid "This option will reset all your target links to open in the same window or tab."
-msgstr "Cette option réinitialisera tous vos liens cibles pour qu’ils s’ouvrent dans la même fenêtre ou le même onglet."
+msgid ""
+"This option will reset all your target links to open in the same window or "
+"tab."
+msgstr ""
+"Cette option réinitialisera tous vos liens cibles pour qu’ils s’ouvrent dans"
+" la même fenêtre ou le même onglet."
 
 #: modules/legacy/components/settings.php:370
 msgid "Add landmark roles to all links"
@@ -529,25 +569,30 @@ msgstr "Réglages généraux"
 msgid "Accessibility Settings"
 msgstr "Réglages de l’accessibilité"
 
-#: pojo-accessibility.php:43 pojo-accessibility.php:53
+#: pojo-accessibility.php:53 pojo-accessibility.php:63
 msgid "Cheatin&#8217; huh?"
 msgstr "Alors, on triche ?"
 
 #: modules/legacy/components/settings.php:289
 msgid "Link for feedback page in your website. Leave blank to disable."
-msgstr "Lien pour la page de commentaires sur votre site web. Laissez vide pour désactiver."
+msgstr ""
+"Lien pour la page de commentaires sur votre site web. Laissez vide pour "
+"désactiver."
 
 #: modules/legacy/components/settings.php:269
 msgid "Link for help page in your website. Leave blank to disable."
-msgstr "Lien vers la page d’aide sur votre site web. Laissez vide pour désactiver."
+msgstr ""
+"Lien vers la page d’aide sur votre site web. Laissez vide pour désactiver."
 
 #: modules/legacy/components/settings.php:249
 msgid "Link for sitemap page in your website. Leave blank to disable."
-msgstr "Lien pour la page de plan du site sur votre site web. Laissez vide pour désactiver."
+msgstr ""
+"Lien pour la page de plan du site sur votre site web. Laissez vide pour "
+"désactiver."
 
 #: modules/legacy/components/frontend.php:198
-#: modules/legacy/components/frontend.php:199 assets/build/scanner.js:780
-#: assets/build/scanner.js:784
+#: modules/legacy/components/frontend.php:199 assets/build/scanner.js:870
+#: assets/build/scanner.js:874
 #: modules/scanner/assets/js/components/color-contrast-form/color-set-disabled.js:77
 #: modules/scanner/assets/js/components/color-contrast-form/color-set.js:115
 msgid "Reset"
@@ -558,7 +603,7 @@ msgstr "Réinitialiser"
 msgid "Grayscale"
 msgstr "Niveaux de gris"
 
-#: modules/legacy/components/settings.php:280
+#: modules/legacy/components/settings.php:280 assets/build/5641.js:114
 #: modules/settings/assets/js/helpers/accessibility-statement.js:27
 msgid "Feedback"
 msgstr "Retour"
