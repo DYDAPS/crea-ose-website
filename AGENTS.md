@@ -1,24 +1,25 @@
 # Project maintenance guidance
 
-Use `$dydaps-wordpress-maintenance` for shared discovery, version detection, compatibility, validation and release procedures. The commercial name is **CREA...OSE**; keep the repository name `crea-ose-website` unchanged.
+Use `$dydaps-wordpress-maintenance` for inventory, updates, risk-based validation, Git and release procedures. Use the commercial spelling **CREA...OSE** exactly; preserve the technical repository slug and identifiers.
 
 ## Project structure
 
-- The `hello-elementor-child` theme extends `hello-elementor`; preserve child-theme code and compare parent-theme changes before replacement.
-- `dydaps-api-protection` is maintained by DYDAPS; preserve its project-specific behavior.
+- WordPress core is tracked at the repository root. Preserve `hello-elementor-child`, which extends Hello Elementor, and all DYDAPS-maintained plugins.
+- The database contains page content, activation state and plugin settings; do not infer these from files or change production data during maintenance.
 
 ## Durable constraints
 
-- PHP 8.4 is the common DYDAPS target. Select the current stable 8.4 patch dynamically for local validation; never change hosting PHP settings automatically.
-- WordPress files are deployed separately from database content and plugin settings. Do not infer active status from files or alter production data during maintenance.
+- PHP 8.4 is the DYDAPS compatibility target. Validate locally and never change hosting PHP settings automatically.
+- Keep local configuration, uploads, generated media, caches, logs and backups outside Git.
 
 ## Deployment
 
-- The README documents a `main` to OVH production `www` deployment. Verify the current webhook and deployment configuration before release; a push may deploy production.
-## Git commit policy
+- Verify the current OVH deployment trigger and target before release. A push to `main` may redeploy production; check the deployed result after an authorized push.
 
-- Write every commit in English as one line: a valid UTF-8 Gitmoji, one space, and a concise title. Do not add a body, cherry-pick note, source commit reference, validation description, replacement character, or damaged encoding.
-- Keep one component update or one complete component-and-locale translation pack per commit. Include all files for the pack; do not split generated translation files or combine unrelated work.
-- Use the exact commercial spelling **CREA...OSE** where applicable. Keep technical repository names, paths, identifiers and URLs unchanged.
-- Do not use `git cherry-pick -x` when it adds a message trailer. Record source-to-promoted commit mappings in the maintenance Skill's internal registry.
-- Install the `$dydaps-wordpress-maintenance` Git hooks and check staged files, message encoding, Gitmoji, single-line format, component/locale granularity and parasite files before commits and pushes. Check messages before publication; do not rewrite published history in future campaigns.
+## Git conventions
+
+Use `$dydaps-wordpress-maintenance` for commit creation and promotion. Every commit is UTF-8 and exactly one English line: one valid Gitmoji, one space, and a concise title. Do not add a body, description, source reference, cherry-pick note, or trailer.
+
+Create one code-update commit per component. Independent translations use one separate commit per component per campaign, including every language, text domain, file, and PO/MO/JSON/`.l10n.php` format. Never split translations by language, file, or format; combine components; or create empty translation commits. Use `🌐 Update WordPress translations`, `🌐 Update [Plugin name] translations`, or `🌐 Update [Theme name] translations`, without a language name. Translations inseparable from an official component distribution may remain in its update commit.
+
+Install and run the Skill's Git policy hooks before commits and pushes. Maintenance `AGENTS.md` belongs only on `develop`. History rewrites and force pushes require explicit authorization for the specific task.
